@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>测试</title>
+    <meta http-equiv="Content-Type" content="text/html" ;charset=" utf-8 " />
+    <style>
+        p {
+            border-bottom: 6px solid rgb(206, 207, 206);
+            background-color: lightgrey;
+        }
+        
+        table,
+        td,
+        th {
+            border: 2px solid rgb(206, 207, 206);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            height: 50px;
+            position: fixed;
+            top: 330px;
+            left: 9px;
+            right: 10px;
+        }
+        
+        .textarea1 {
+            width: 51.15%;
+            height: 200px;
+            position: fixed;
+            resize: none;
+            left: 9px;
+            top: 380px
+        }
+        
+        .textarea2 {
+            width: 48.85%;
+            height: 200px;
+            position: fixed;
+            resize: none;
+            right: 0px;
+            top: 380px;
+        }
+        
+        .btn {
+            display: inline-block;
+            height: 20px;
+            width: 50px;
+            line-height: 10px;
+            background: rgb(241, 239, 239);
+            font-size: 10px;
+            color: rgb(7, 6, 6);
+            cursor: pointer;
+            text-decoration: none;
+            outline: none;
+            font-weight: bold;
+            padding: 0 5px;
+            vertical-align: middle;
+            border: none;
+            left: 100px;
+            right: 100px;
+            position: fixed;
+            top: 10px;
+            left: 150px;
+        }
+        
+        .btn:active {
+            top: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    {% load static %}
+    <script src="static/codemirror-5.59.4/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="static/codemirror-5.59.4/lib/codemirror.css">
+    <link rel="stylesheet" href="static/codemirror-5.59.4/addon/hint/show-hint.css">
+    <link rel="stylesheet" href="static/codemirror-5.59.4//theme/idea.css">
+    <link rel="stylesheet" href="static/codemirror-5.59.4//theme/dracula.css">
+    <script src="static/codemirror-5.59.4/addon/hint/show-hint.js"></script>
+    <script src="static/codemirror-5.59.4/addon/edit/matchbrackets.js"></script>
+    <script src="static/codemirror-5.59.4/mode/clike/clike.js"></script>
+    <script src="static/codemirror-5.59.4/addon/edit/closebrackets.js"></script>
+    <script src="static/codemirror-5.59.4/addon/edit/closetag.js"></script>
+    <script src="static/codemirror-5.59.4/addon/edit/matchtags.js"></script>
+    <script src="static/codemirror-5.59.4/addon/edit/trailingspace.js"></script>
+    <script src="static/codemirror-5.59.4/addon/edit/continuelist.js"></script>
+    <script src="static/codemirror-5.59.4/addon/hint/anyword-hint.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    语言：<select>
+        <option>C++</option>
+        <option>C</option>
+        <option>JAVA</option>
+        <option>Python</option>
+        <option>C#</option>
+        <option>Matlab</option>
+    </select>
+    <div style="width:5px; ">
+        <button class="btn " id="run" onclick="submitcode()">运行</button>
+    </div>
+    <div>
+        <textarea id="inputcode" cols="30" rows="10"></textarea>
+    </div>
+    <table>
+        <tr>
+            <td>输入</td>
+            <td>输出
+                <!--<input type="submit " value="RUN "/>-->
+            </td>
+
+
+        </tr>
+
+
+    </table>
+    <textarea class="textarea1 " id="inputdata"></textarea>
+    <textarea class="textarea2 " id="outputdata"></textarea>
+    <script>
+        editor = CodeMirror.fromTextArea(document.getElementById("inputcode"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            mode: {
+                name: "text/x-c++src",
+                globalVars: true
+            },
+            autoCloseBrackets: true,
+            tabSize: 4,
+            theme: "idea",
+            line: true,
+            indentWithTabs: true,
+            smartIndent: true,
+            indentUnit: 4,
+            extraKeys: {
+                "Ctrl-K": "autocomplete"
+            }
+        });
+
+        function submitcode() {
+
+            var code = editor.getValue()
+            var inputdata = document.getElementById("inputdata").value
+            document.getElementById("outputdata").innerHTML = "编译运行中..."
+            $.ajax({
+                url: "/",
+                type: "POST",
+                data: {
+                    "code": code,
+                    "inputdata": inputdata
+                },
+                success: function(data) {
+                    document.getElementById("outputdata").innerHTML = data.msg
+                }
+            })
+        }
+    </script>
+
+</body>
+
+</html>
