@@ -30,9 +30,10 @@ def editor(request):
         f = open('code.cpp', 'w')
         f.write(code)
         f.close()
-        complie_res = runcmd(["D:\\Dev-Cpp\\MinGW64\\bin\\g++.exe", "code.cpp"])
+
+        complie_res = runcmd(["g++ code.cpp", "code.cpp"])
         if complie_res[0] == 0:
-            run_res = runcmd(["a.exe"], inputdata)
+            run_res = runcmd(["./a.out"], inputdata)
             if run_res[0] == 0:
                 return JsonResponse({"msg": run_res[1]})
             else:

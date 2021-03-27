@@ -25,7 +25,7 @@ SECRET_KEY = '6l-axspuu9fhz)r2u&!($wrybqb2!rv#)+q+o0$5#l^4d-!sgs'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["47.100.49.119"]
 
 
 # Application definition
@@ -76,17 +76,11 @@ WSGI_APPLICATION = 'djangolearn.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'djangolearn',
-        'HOST': '127.0.0.1',
-        'PORT': '1433',
-        'USER': 'djangouser',
-        'PASSWORD': 'django3235266',
-        'OPTIONS': {
-            'DRIVER': 'SQL Server Native Client 11.0',
-            'MARS_Connection': True,
-        },
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            
     }
+
 }
 
 
