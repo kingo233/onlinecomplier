@@ -2,56 +2,81 @@
 <html>
 
 <head>
-    <title>测试</title>
+    <title>在线编译器</title>
     <meta http-equiv="Content-Type" content="text/html" ;charset=" utf-8 " />
     <style>
-        p {
-            border-bottom: 6px solid rgb(206, 207, 206);
-            background-color: lightgrey;
-        }
-        
-        table,
-        td,
-        th {
-            border: 2px solid rgb(206, 207, 206);
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .text1 {
             height: 50px;
             position: fixed;
-            top: 330px;
-            left: 9px;
-            right: 10px;
+            top: 355px;
+            left: 37px;
+            width: 50%;
+            border: 1px solid rgb(162, 165, 165);
+            font-size: 17px;
+            font-style: inherit;
+            color: rgb(22, 22, 22);
+            background-color: white;
+        }
+        
+        .text2 {
+            height: 50px;
+            position: fixed;
+            top: 355px;
+            right: 9px;
+            width: 50%;
+            border: 1px solid rgb(162, 165, 165);
+            font-size: 17px;
+            font-style: inherit;
+            color: rgb(22, 22, 22);
+            background-color: white;
+        }
+        
+        .text3 {
+            height: 242px;
+            width: 22.5px;
+            position: fixed;
+            top: 355px;
+            left: 8px;
+            border: 1px solid rgb(162, 165, 165);
+            background-color: rgb(240, 243, 243);
         }
         
         .textarea1 {
-            width: 51.15%;
-            height: 200px;
+            width: 50%;
+            height: 190px;
             position: fixed;
             resize: none;
-            left: 9px;
-            top: 380px
+            left: 37px;
+            top: 405px;
+            border: 1px solid rgb(162, 165, 165);
+            font-size: 15px;
+            font-style: inherit;
+            color: rgb(24, 206, 238);
+            background-color: white;
         }
         
         .textarea2 {
-            width: 48.85%;
-            height: 200px;
+            width: 50%;
+            height: 190px;
             position: fixed;
             resize: none;
-            right: 0px;
-            top: 380px;
+            right: 9px;
+            top: 405px;
+            border: 1px solid rgb(162, 165, 165);
+            font-size: 15px;
+            font-style: inherit;
+            color: rgb(24, 206, 238);
+            background-color: white;
         }
         
         .btn {
             display: inline-block;
-            height: 20px;
-            width: 50px;
+            height: 30px;
+            width: 80px;
             line-height: 10px;
-            background: rgb(241, 239, 239);
+            background: rgb(24, 206, 238);
             font-size: 10px;
-            color: rgb(7, 6, 6);
+            color: rgb(251, 254, 255);
             cursor: pointer;
             text-decoration: none;
             outline: none;
@@ -59,15 +84,19 @@
             padding: 0 5px;
             vertical-align: middle;
             border: none;
-            left: 100px;
-            right: 100px;
             position: fixed;
             top: 10px;
-            left: 150px;
+            left: 200px;
         }
         
         .btn:active {
             top: 1px;
+        }
+        
+        .select {
+            font-size: 15px;
+            height: 30px;
+            width: 100px;
         }
     </style>
 </head>
@@ -89,7 +118,7 @@
     <script src="static/codemirror-5.59.4/addon/edit/continuelist.js"></script>
     <script src="static/codemirror-5.59.4/addon/hint/anyword-hint.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    语言：<select>
+    语言：<select id="lang" onchange="change_lang()">
         <option>C++</option>
         <option>C</option>
         <option>JAVA</option>
@@ -97,26 +126,18 @@
         <option>C#</option>
         <option>Matlab</option>
     </select>
+    <p> </p>
     <div style="width:5px; ">
-        <button class="btn " id="run" onclick="submitcode()">运行</button>
+        <button class="btn " onclick="submitcode()">运行</button>
     </div>
     <div>
         <textarea id="inputcode" cols="30" rows="10"></textarea>
     </div>
-    <table>
-        <tr>
-            <td>输入</td>
-            <td>输出
-                <!--<input type="submit " value="RUN "/>-->
-            </td>
-
-
-        </tr>
-
-
-    </table>
-    <textarea class="textarea1 " id="inputdata"></textarea>
-    <textarea class="textarea2 " id="outputdata"></textarea>
+    <input class="text1" type="text" style="outline :none" value="输入" readonly>
+    <input class="text2" type="text" style="outline :none" value="输出" readonly>
+    <textarea class="textarea1" style="outline :none"></textarea>
+    <textarea class="textarea2 " style="outline :none"></textarea>
+    <input class="text3" type="text" style="outline :none;" readonly>
     <script>
         editor = CodeMirror.fromTextArea(document.getElementById("inputcode"), {
             lineNumbers: true,
@@ -153,6 +174,12 @@
                     document.getElementById("outputdata").innerHTML = data.msg
                 }
             })
+        }
+
+        function change_lang() {
+            var select_obj = document.getElementById("lang")
+            var select_lang = select_obj.options[select_obj.selectedIndex].value
+
         }
     </script>
 
