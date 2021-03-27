@@ -111,6 +111,7 @@
     <script src="static/codemirror-5.59.4/addon/hint/show-hint.js"></script>
     <script src="static/codemirror-5.59.4/addon/edit/matchbrackets.js"></script>
     <script src="static/codemirror-5.59.4/mode/clike/clike.js"></script>
+    <script src="static/codemirror-5.59.4/mode/"></script>
     <script src="static/codemirror-5.59.4/addon/edit/closebrackets.js"></script>
     <script src="static/codemirror-5.59.4/addon/edit/closetag.js"></script>
     <script src="static/codemirror-5.59.4/addon/edit/matchtags.js"></script>
@@ -123,8 +124,6 @@
         <option>C</option>
         <option>JAVA</option>
         <option>Python</option>
-        <option>C#</option>
-        <option>Matlab</option>
     </select>
     <p> </p>
     <div style="width:5px; ">
@@ -135,10 +134,16 @@
     </div>
     <input class="text1" type="text" style="outline :none" value="输入" readonly>
     <input class="text2" type="text" style="outline :none" value="输出" readonly>
-    <textarea class="textarea1" style="outline :none"></textarea>
-    <textarea class="textarea2 " style="outline :none"></textarea>
+    <textarea class="textarea1" style="outline :none" id="inputdata"></textarea>
+    <textarea class="textarea2 " style="outline :none" id="outputdata"></textarea>
     <input class="text3" type="text" style="outline :none;" readonly>
     <script>
+        lang_mode = {
+            "C++": "text/x-c++src",
+            "C": "text/x-csrc",
+            "JAVA": "text/x-java",
+            "Python": "text/x-python",
+        };
         editor = CodeMirror.fromTextArea(document.getElementById("inputcode"), {
             lineNumbers: true,
             matchBrackets: true,
@@ -157,6 +162,7 @@
                 "Ctrl-K": "autocomplete"
             }
         });
+
 
         function submitcode() {
 
@@ -179,7 +185,7 @@
         function change_lang() {
             var select_obj = document.getElementById("lang")
             var select_lang = select_obj.options[select_obj.selectedIndex].value
-
+            editor.setOption("mode", select_lang)
         }
     </script>
 
