@@ -13,6 +13,47 @@ def runcmd(command, input=None, timeout=1):
     return res.returncode, sout, serr
 
 
+def runcpp(code, inputdata):
+    f = open('code.cpp', 'w')
+    f.write(code)
+    f.close()
+    complie_res = runcmd(["g++ code.cpp"])
+    if complie_res[0] == 0:
+        run_res = runcmd(["./a.out"], inputdata)
+        if run_res[0] == 0:
+            return run_res[1]
+        else:
+            return "Run time error!"
+    else:
+        return complie_res[2]
+
+
+def runc(code, inputdata):
+    f = open('cpde.c', 'w')
+    f.write(code)
+    f.close()
+    complie_res = runcmd(["gcc code.c"])
+    if complie_res[0] == 0:
+        run_res = runcmd(["./a.out"], inputdata)
+        if run_res[0] == 0:
+            return run_res[1]
+        else:
+            return "Run time error!"
+    else:
+        return complie_res[2]
+
+
+def runpython(code, inputdata):
+    f = open('code.py', 'w')
+    f.write(code)
+    f.close()
+    run_res = runcmd(["python3 code.py"], inputdata)
+    if run_res[0] == 0:
+        return run_res[1]
+    else:
+        return run_res[2]
+
+
 # Create your views here.
 def home(request):
     # return HttpResponse("首页")
@@ -27,16 +68,9 @@ def editor(request):
     else:
         code = request.POST['code']
         inputdata = request.POST['inputdata']
-        f = open('code.cpp', 'w')
-        f.write(code)
-        f.close()
+        lang = request.POST['lang']
+        lang_handle_dict = {'C++': runcpp, 'C': runc, 'Python': runpython}
+        if lang == 'JAVA':
+            return JsonResponse({"msg": "该语言暂不支持！"})
 
-        complie_res = runcmd(["g++ code.cpp", "code.cpp"])
-        if complie_res[0] == 0:
-            run_res = runcmd(["./a.out"], inputdata)
-            if run_res[0] == 0:
-                return JsonResponse({"msg": run_res[1]})
-            else:
-                return JsonResponse({"msg": "Run time error!"})
-        else:
-            return JsonResponse({"msg": complie_res[2]})
+        return JsonResponse({"msg": lang_handle_dict[lang](code,inputdata)})

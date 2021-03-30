@@ -169,12 +169,15 @@
             var code = editor.getValue()
             var inputdata = document.getElementById("inputdata").value
             document.getElementById("outputdata").innerHTML = "编译运行中..."
+            var select_obj = document.getElementById("lang")
+            var select_lang = select_obj.options[select_obj.selectedIndex].value
             $.ajax({
                 url: "/",
                 type: "POST",
                 data: {
                     "code": code,
-                    "inputdata": inputdata
+                    "inputdata": inputdata,
+                    "lang": select_lang
                 },
                 success: function(data) {
                     document.getElementById("outputdata").innerHTML = data.msg
