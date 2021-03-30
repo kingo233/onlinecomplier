@@ -29,7 +29,7 @@ def runcpp(code, inputdata):
 
 
 def runc(code, inputdata):
-    f = open('cpde.c', 'w')
+    f = open('code.c', 'w')
     f.write(code)
     f.close()
     complie_res = runcmd(["gcc code.c"])
