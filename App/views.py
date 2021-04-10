@@ -23,7 +23,7 @@ def runcpp(code, inputdata):
         if run_res[0] == 0:
             return run_res[1]
         else:
-            return "Run time error!"
+            return run_res[2]
     else:
         return complie_res[2]
 
@@ -38,7 +38,7 @@ def runc(code, inputdata):
         if run_res[0] == 0:
             return run_res[1]
         else:
-            return "Run time error!"
+            return run_res[2]
     else:
         return complie_res[2]
 
@@ -52,6 +52,20 @@ def runpython(code, inputdata):
         return run_res[1]
     else:
         return run_res[2]
+
+def runjava(code,inputdata):
+    f = open('code.java','w')
+    f.write(code)
+    f.close()
+    complie_res = runcmd(["javac code.java"])
+    if complie_res[0] == 0:
+        run_res = runcmd(["java code"], inputdata)
+        if run_res[0] == 0:
+            return run_res[1]
+        else:
+            return run_res[2]
+    else:
+        return complie_res[2]
 
 
 # Create your views here.
@@ -69,8 +83,5 @@ def editor(request):
         code = request.POST['code']
         inputdata = request.POST['inputdata']
         lang = request.POST['lang']
-        lang_handle_dict = {'C++': runcpp, 'C': runc, 'Python': runpython}
-        if lang == 'JAVA':
-            return JsonResponse({"msg": "该语言暂不支持！"})
-
+        lang_handle_dict = {'C++': runcpp, 'C': runc, 'Python': runpython,'JAVA':runjava}
         return JsonResponse({"msg": lang_handle_dict[lang](code,inputdata)})

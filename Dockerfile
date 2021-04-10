@@ -18,3 +18,13 @@ ADD . /var/www/html/mysite1
 
 # 利用 pip 安装依赖
 RUN pip install -r requirements.txt
+
+#创建java目录
+RUN mkdir /usr/local/java
+
+#解压jdk
+ADD jdk12.tar.gz /usr/local/java/jdk
+
+
+ENV JAVA_HOME /usr/local/java/jdk/jdk-12.0.1 
+ENV PATH ${JAVA_HOME}/bin:$PATH 
